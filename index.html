@@ -22,6 +22,7 @@
   <div class="topbar"><div><h2>Painel do Comandante</h2><p>Indicadores consolidados da produtividade individual.</p></div><button onclick="window.print()">Imprimir / PDF</button></div>
   <div class="filters compact"><label>Início<input type="date" id="dashIni"></label><label>Fim<input type="date" id="dashFim"></label><label>Tipo<select id="dashTipo"><option value="">Todos</option></select></label><button id="dashAtualizar">Atualizar</button></div>
   <div class="cards" id="dashCards"></div>
+  <div class="panel"><h3>Comparativo com o mesmo período do ano anterior</h3><table id="dashComparativo"></table></div>
   <div class="grid2"><div class="panel"><h3>Ranking: pessoas abordadas</h3><table id="dashRankPessoas"></table></div><div class="panel"><h3>Ranking: quem mais aparece</h3><table id="dashRankAparece"></table></div></div>
   <div class="grid2"><div class="panel"><h3>Produtividade por tipo de policiamento</h3><div id="chartTipo" class="bars"></div></div><div class="panel"><h3>Evolução por mês</h3><div id="chartMes" class="bars"></div></div></div>
 </section>
@@ -35,6 +36,7 @@
   <div class="topbar"><div><h2>Consultas e Relatórios</h2><p>Consulta por período, policial, equipe e modalidade de policiamento.</p></div><button onclick="window.print()">Gerar PDF</button></div>
   <div class="filters"><label>Data inicial<input type="date" id="fIni"></label><label>Data final<input type="date" id="fFim"></label><label>Policial<select id="fPol"><option value="">Todos</option></select></label><label>Equipe<select id="fEquipe"><option value="">Todas</option></select></label><label>Tipo de policiamento<select id="fTipo"><option value="">Todos</option></select></label><button id="btnFiltrar">Aplicar filtros</button><button id="btnCsv">Exportar CSV filtrado</button></div>
   <div class="cards" id="relCards"></div>
+  <div class="panel"><h3>Comparativo com o mesmo período do ano anterior</h3><table id="relComparativo"></table></div>
   <div class="grid2"><div class="panel"><h3>Resumo por policial</h3><table id="resumoPolicial"></table></div><div class="panel"><h3>Resumo por tipo de policiamento</h3><table id="resumoTipo"></table></div></div>
   <div class="panel"><h3>Registros filtrados</h3><div class="tablewrap"><table id="registros"></table></div></div>
 </section>
