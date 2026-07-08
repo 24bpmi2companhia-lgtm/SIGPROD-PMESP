@@ -16,6 +16,7 @@
   <button class="nav" data-page="rankings">🏆 Rankings</button>
   <button class="nav" data-page="admin">👮 Efetivo</button>
   <button class="nav" data-page="dados">💾 Backup</button>
+  <button id="installApp" class="nav" style="display:none">⬇️ Instalar aplicativo</button>
 </aside>
 <main>
 <section id="dashboard" class="page active">
@@ -51,7 +52,7 @@
   <div class="panel"><h3>Efetivo cadastrado</h3><div class="tablewrap"><table id="tEfetivo"></table></div></div>
 </section>
 <section id="dados" class="page">
-  <div class="topbar"><div><h2>Backup e Segurança</h2><p>Sistema local. O banco fica salvo no navegador do PC. Faça backup regularmente.</p></div></div>
+  <div class="topbar"><div><h2>Backup e Segurança</h2><p>Sistema local. O banco fica salvo no navegador do PC. Faça backup regularmente antes de atualizar arquivos.</p></div></div>
   <div class="panel actions"><button id="exportarJson">Exportar backup JSON</button><label class="filebtn">Importar backup JSON<input type="file" id="importJson" accept=".json"></label><button id="exportarTudoCsv">Exportar lançamentos CSV</button><button class="danger" id="resetar">Restaurar base do Excel</button></div>
   <div class="panel"><h3>Como usar no GitHub</h3><p>Baixe o ZIP, extraia, depois no GitHub clique em <b>Add file</b> → <b>Upload files</b> e envie todos os arquivos desta pasta.</p></div>
 </section>

@@ -22,35 +22,39 @@ document.querySelectorAll('.nav').forEach(b=>b.onclick=()=>showPage(b.dataset.pa
 
 function migrateState(s){
   s.efetivo=s.efetivo||[]; s.lancamentos=s.lancamentos||[]; s.metricas=s.metricas||principais; s.tipos=s.tipos||[]; s.equipes=s.equipes||[];
+  const seedEf=(window.SIGPROD_SEED&&window.SIGPROD_SEED.efetivo)||[];
+  const seedByRE=Object.fromEntries(seedEf.filter(p=>p.re).map(p=>[String(p.re).trim().toUpperCase(),p]));
   const nomesPorRE={};
-  s.lancamentos.forEach(r=>{ if(r.re && r.qra && isRE(r.re)) nomesPorRE[r.re]=normName(r.qra); });
+  s.lancamentos.forEach(r=>{ if(r.re && r.qra && isRE(r.re)) nomesPorRE[String(r.re).trim().toUpperCase()]=normName(r.qra); });
   s.efetivo=s.efetivo.map((p,idx)=>{
     p={...p};
-    // Corrige importação inicial em que grad recebeu número, re recebeu graduação e qra recebeu RE.
     if(!isGrad(p.grad) && isGrad(p.re) && isRE(p.qra)){
-      const re=p.qra;
-      p.grad=p.re;
-      p.re=re;
-      p.qra=nomesPorRE[re] || p.nome || re;
+      const re=String(p.qra).trim().toUpperCase();
+      p.grad=p.re; p.re=re; p.qra=nomesPorRE[re] || p.nome || re;
+    }
+    if(p.re) p.re=String(p.re).trim().toUpperCase();
+    const canon=seedByRE[p.re];
+    if(canon){
+      if(!isGrad(p.grad) || p.grad==='PM') p.grad=canon.grad;
+      if(!p.qra || isRE(p.qra) || /^\d+$/.test(String(p.qra))) p.qra=canon.qra;
     }
     if(!p.id) p.id=String(idx+1);
     if(!p.status) p.status='ATIVO';
-    if(p.qra) p.qra=normName(p.qra);
-    if(p.grad) p.grad=String(p.grad).trim();
-    if(p.re) p.re=String(p.re).trim().toUpperCase();
+    p.qra=normName(p.qra);
+    p.grad=String(p.grad||'PM').trim();
     return p;
   });
-  // Cria cadastro para policiais que existem nos lançamentos, mas não estavam no efetivo.
-  const reSet=new Set(s.efetivo.map(p=>p.re).filter(Boolean));
+  const byRE={};
+  s.efetivo.forEach(p=>{ if(p.re) byRE[p.re]=p; });
+  seedEf.forEach(sp=>{ if(sp.re && !byRE[sp.re]){ const np={...sp}; s.efetivo.push(np); byRE[np.re]=np; } });
   s.lancamentos.forEach(r=>{
-    if(r.re && isRE(r.re) && !reSet.has(r.re)){
-      s.efetivo.push({id:'auto_'+r.re,grad:'PM',re:r.re,qra:normName(r.qra)||r.re,equipe:r.equipe||'',status:'ATIVO'});
-      reSet.add(r.re);
-    }
+    if(r.re) r.re=String(r.re).trim().toUpperCase();
+    if(r.tipo) r.tipo=String(r.tipo).replace('SUPERVSIÃO','SUPERVISÃO');
+    if(r.re && byRE[r.re]) r.qra=byRE[r.re].qra;
+    else if(r.qra) r.qra=normName(r.qra);
+    if(r.re && isRE(r.re) && !byRE[r.re]){ const np={id:'auto_'+r.re,grad:'PM',re:r.re,qra:normName(r.qra)||r.re,equipe:r.equipe||'',status:'ATIVO'}; s.efetivo.push(np); byRE[np.re]=np; }
   });
-  // Mantém o QRA dos lançamentos como nome, não como RE.
-  const pmByRE=Object.fromEntries(s.efetivo.map(p=>[p.re,p]));
-  s.lancamentos.forEach(r=>{ if(r.re && pmByRE[r.re]) r.qra=pmByRE[r.re].qra; });
+  s.tipos=[...new Set([...(window.SIGPROD_SEED?.tipos||[]),...s.tipos,...s.lancamentos.map(x=>x.tipo).filter(Boolean)])];
   return s;
 }
 
@@ -116,3 +120,7 @@ dashAtualizar.onclick=refreshDashboard; btnFiltrar.onclick=refreshConsultas; rAt
 function initDates(){['dashIni','fIni','rIni'].forEach(id=>{const el=document.getElementById(id); if(el&&!el.value) el.value=monthStart()}); ['dashFim','fFim','rFim'].forEach(id=>{const el=document.getElementById(id); if(el&&!el.value) el.value=today()})}
 function refreshAll(){state=migrateState(state); fillSelects(); if(!document.getElementById('formLanc').children.length) buildLancForm(); refreshDashboard(); refreshConsultas(); refreshRankings(); refreshEfetivo(); refreshUltimos(); localStorage.setItem(KEY,JSON.stringify(state))}
 initDates(); refreshAll(); if('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js').catch(()=>{});
+
+let deferredInstallPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault(); deferredInstallPrompt=e; const b=document.getElementById('installApp'); if(b) b.style.display='block';});
+document.getElementById('installApp')?.addEventListener('click',async()=>{if(!deferredInstallPrompt){alert('Para instalar, publique no GitHub Pages ou abra por um servidor local; em arquivo local o Chrome pode não permitir instalação.');return} deferredInstallPrompt.prompt(); await deferredInstallPrompt.userChoice; deferredInstallPrompt=null; document.getElementById('installApp').style.display='none';});

@@ -1,29 +1,18 @@
-# SIGPROD-PMESP
+# SIGPROD-PMESP - V3
 
 Sistema local para gestão da produtividade operacional da 2ª Companhia PM do 24º BPM/I.
 
-## Como testar
+## Atualização sem perder dados
 
-1. Baixe o ZIP.
-2. Extraia a pasta.
-3. Abra `index.html` no Google Chrome ou Microsoft Edge.
-4. Use o menu lateral.
+1. Antes de substituir arquivos, abra o sistema antigo e clique em **Backup > Exportar backup JSON**.
+2. Substitua os arquivos no GitHub ou na pasta local.
+3. Abra o sistema novo. Ele mantém o mesmo banco local do navegador.
+4. Se algo não aparecer, vá em **Backup > Importar backup JSON** e selecione o arquivo salvo.
 
-## Funcionalidades da versão inicial
+## Correções da V3
 
-- Painel do Comandante.
-- Lançamento pela Administração.
-- Consulta por período.
-- Consulta por policial.
-- Consulta por equipe.
-- Consulta por tipo/modelo de policiamento.
-- Rankings sem pontuação.
-- Cadastro de efetivo.
-- Marcar policial como transferido/inativo sem apagar histórico.
-- Backup JSON.
-- Exportação CSV.
-- Impressão/PDF pelo navegador.
-
-## Observação
-
-Este sistema funciona localmente no PC e salva os dados no navegador. Faça backup JSON regularmente.
+- Graduação + Nome + RE no lançamento, ranking e relatórios.
+- Migração automática do cadastro antigo com RE/graduação trocados.
+- Comparativo com o mesmo período do ano anterior preservado.
+- Correção de grafia de RP + SUPERVISÃO.
+- Botão de instalação do PWA quando publicado via GitHub Pages.
