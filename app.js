@@ -1,5 +1,5 @@
 const KEY='sigprod_pmesp_local_v1';
-const APP_VERSION='4.0';
+const APP_VERSION='10.0';
 let state=loadState();
 let editingPM=null, editingLanc=null;
 
@@ -10,7 +10,7 @@ const csvLabels={data:'Data',tipo:'Tipo',re:'RE',policial:'Policial',equipe:'Equ
 function clone(o){return JSON.parse(JSON.stringify(o||{}))}
 function loadState(){const raw=localStorage.getItem(KEY); let s=raw?JSON.parse(raw):clone(window.SIGPROD_SEED); return migrateState(s)}
 function persist(){state.versao=APP_VERSION; localStorage.setItem(KEY,JSON.stringify(state)); refreshAll(); flashSave()}
-function flashSave(){const el=document.getElementById('saveStatus'); if(!el) return; el.textContent='Banco salvo no navegador deste PC às '+new Date().toLocaleTimeString('pt-BR'); setTimeout(()=>{el.textContent='Banco local ativo. Faça backup JSON antes de atualizar.'},3500)}
+function flashSave(){const el=document.getElementById('saveStatus'); if(!el) return; el.textContent='Banco salvo no navegador deste PC às '+new Date().toLocaleTimeString('pt-BR'); setTimeout(()=>{el.textContent='V10 ativa. Banco local preservado. Faça backup JSON antes de atualizar.'},3500)}
 function br(n){return Number(n||0).toLocaleString('pt-BR')}
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function today(){return new Date().toISOString().slice(0,10)}
@@ -137,7 +137,7 @@ function download(name,text,type='text/plain'){const a=document.createElement('a
 function formatDateBR(s){if(!s || !/^\d{4}-\d{2}-\d{2}$/.test(s)) return s||''; const [y,m,d]=s.split('-'); return `${d}/${m}/${y}`}
 function csvEscape(v){return '="'+String(v??'').replaceAll('"','""').replaceAll('\n',' ')+'"'}
 function csvFrom(rows){const cols=['data','tipo','re','policial','equipe',...principais.filter(m=>state.metricas.includes(m)),'observacao']; const head='sep=;\r\n'+cols.map(c=>csvLabels[c]||c).join(';'); const body=rows.map(r=>cols.map(c=>{let v=c==='policial'?displayRec(r):(c==='data'?formatDateBR(r.data):r[c]); return csvEscape(v)}).join(';')).join('\r\n'); return '\ufeff'+head+'\r\n'+body}
-function htmlExcel(rows){const cols=['data','tipo','re','policial','equipe',...principais.filter(m=>state.metricas.includes(m)),'observacao']; const th=cols.map(c=>`<th>${esc(csvLabels[c]||c)}</th>`).join(''); const trs=rows.map(r=>'<tr>'+cols.map(c=>{let v=c==='policial'?displayRec(r):(c==='data'?formatDateBR(r.data):r[c]); return `<td style="mso-number-format:'\\@';">${esc(v)}</td>`}).join('')+'</tr>').join(''); return `<!doctype html><html><head><meta charset="utf-8"><style>table{border-collapse:collapse}td,th{border:1px solid #999;padding:4px}th{background:#0b347c;color:#fff}</style></head><body><table>${th}${trs}</table></body></html>`}
+function htmlExcel(rows){const cols=['data','tipo','re','policial','equipe',...principais.filter(m=>state.metricas.includes(m)),'observacao']; const th=cols.map(c=>`<th>${esc(csvLabels[c]||c)}</th>`).join(''); const trs=rows.map(r=>'<tr>'+cols.map(c=>{let v=c==='policial'?displayRec(r):(c==='data'?formatDateBR(r.data):r[c]); return `<td style="mso-number-format:'\\@';">${esc(v)}</td>`}).join('')+'</tr>').join(''); return `<!doctype html><html><head><meta charset="utf-8"><style>table{border-collapse:collapse}td,th{border:1px solid #999;padding:4px}th{background:#0b347c;color:#fff}</style></head><body><table><thead><tr>${th}</tr></thead><tbody>${trs}</tbody></table></body></html>`}
 function exportExcelFiltrado(){download('relatorio_filtrado_SIGPROD.xls',htmlExcel(dataConsulta()),'application/vnd.ms-excel;charset=utf-8')}
 function exportExcelTudo(){download('lancamentos_SIGPROD.xls',htmlExcel(state.lancamentos),'application/vnd.ms-excel;charset=utf-8')}
 exportarJson.onclick=()=>download('backup_SIGPROD.json',JSON.stringify(state,null,2),'application/json');
@@ -149,7 +149,7 @@ importJson.onchange=e=>{const f=e.target.files[0]; if(!f) return; const rd=new F
 resetar.onclick=()=>{if(confirm('Restaurar a base inicial importada do Excel? Isso não apaga o backup que você já exportou.')){localStorage.removeItem(KEY); state=migrateState(clone(window.SIGPROD_SEED)); persist()}}
 dashAtualizar.onclick=refreshDashboard; btnFiltrar.onclick=refreshConsultas; rAtualizar.onclick=refreshRankings;
 function initDates(){['dashIni','fIni','rIni'].forEach(id=>{const el=document.getElementById(id); if(el&&!el.value) el.value=monthStart()}); ['dashFim','fFim','rFim'].forEach(id=>{const el=document.getElementById(id); if(el&&!el.value) el.value=today()})}
-function refreshAll(){state=migrateState(state); fillSelects(); if(!document.getElementById('formLanc').children.length) buildLancForm(); refreshDashboard(); refreshConsultas(); refreshRankings(); refreshEfetivo(); refreshUltimos(); localStorage.setItem(KEY,JSON.stringify(state))}
+function refreshAll(){state=migrateState(state); fillSelects(); buildLancForm(); refreshDashboard(); refreshConsultas(); refreshRankings(); refreshEfetivo(); refreshUltimos(); localStorage.setItem(KEY,JSON.stringify(state))}
 initDates(); refreshAll(); if('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js').catch(()=>{});
 
 let deferredInstallPrompt=null;

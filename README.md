@@ -1,24 +1,37 @@
-# SIGPROD-PMESP - V4
+# SIGPROD PMESP - V10
 
-Sistema local para gestão da produtividade operacional da 2ª Companhia PM do 24º BPM/I.
+Sistema local de gestão da produtividade operacional.
 
-## Melhorias da V4
+## Importante
 
-- Mantém o mesmo banco local do navegador, sem apagar lançamentos já feitos.
-- Corrige melhor os policiais sem graduação, usando RE e nome/QRA como referência.
-- Exibe Graduação + Nome + RE em lançamentos, consultas e rankings.
-- Inclui conferência automática de efetivo incompleto.
-- Exporta relatório filtrado em Excel (.xls), evitando problemas de data ##### e acentuação.
-- Mantém CSV para backup operacional.
-- Mantém comparativo com o mesmo período do ano anterior.
-- Atualiza cache do PWA para forçar o navegador a carregar a versão nova.
+Esta versão mantém a mesma chave de banco local usada nas versões anteriores (`sigprod_pmesp_local_v1`). Assim, ao substituir os arquivos no GitHub Pages ou abrir no mesmo navegador, os dados já lançados continuam preservados.
 
-## Regra de segurança
+Mesmo assim, antes de atualizar, faça:
 
-Antes de atualizar arquivos, abra o sistema antigo e clique em:
+1. Abra a versão atual.
+2. Vá em **Backup**.
+3. Clique em **Exportar backup JSON**.
+4. Guarde o arquivo em pasta segura.
 
-Backup → Exportar backup JSON
+## Melhorias da V10
 
-Depois de atualizar, se algo não aparecer, use:
+- Exibição de policial como Graduação + Nome/QRA + RE.
+- Correção automática de graduações comuns.
+- Conferência de efetivo para policiais sem graduação aparente.
+- Consulta por período, policial, equipe e tipo de policiamento.
+- Painel do Comandante.
+- Comparativo com o mesmo período do ano anterior.
+- Rankings sem pontuação, por totais reais.
+- Exportação CSV e Excel.
+- Botão de impressão/PDF.
+- PWA com instalação pelo navegador quando publicado no GitHub Pages.
 
-Backup → Importar backup JSON
+## Como testar localmente
+
+Abra o arquivo `index.html` no Chrome ou Edge.
+
+## Como publicar no GitHub Pages
+
+Envie todos os arquivos desta pasta para a raiz do repositório. Depois vá em:
+
+Settings > Pages > Source: Deploy from a branch > Branch: main > /(root) > Save.
