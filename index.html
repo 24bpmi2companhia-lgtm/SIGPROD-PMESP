@@ -9,7 +9,7 @@
 </head>
 <body>
 <aside class="sidebar">
-  <div class="brand"><div class="brasao">PM</div><div><h1>SIGPROD</h1><p>Produtividade Operacional</p></div></div>
+  <div class="brand"><div class="brasao">PM</div><div><h1>SIGPROD</h1><p>Produtividade Operacional</p><small id="saveStatus">Banco local ativo. Faça backup JSON antes de atualizar.</small></div></div>
   <button class="nav active" data-page="dashboard">📊 Painel do Comandante</button>
   <button class="nav" data-page="lancar">➕ Lançar Produtividade</button>
   <button class="nav" data-page="consultas">🔎 Consultas e Relatórios</button>
@@ -35,7 +35,7 @@
 </section>
 <section id="consultas" class="page">
   <div class="topbar"><div><h2>Consultas e Relatórios</h2><p>Consulta por período, policial, equipe e modalidade de policiamento.</p></div><button onclick="window.print()">Gerar PDF</button></div>
-  <div class="filters"><label>Data inicial<input type="date" id="fIni"></label><label>Data final<input type="date" id="fFim"></label><label>Policial<select id="fPol"><option value="">Todos</option></select></label><label>Equipe<select id="fEquipe"><option value="">Todas</option></select></label><label>Tipo de policiamento<select id="fTipo"><option value="">Todos</option></select></label><button id="btnFiltrar">Aplicar filtros</button><button id="btnCsv">Exportar CSV filtrado</button></div>
+  <div class="filters"><label>Data inicial<input type="date" id="fIni"></label><label>Data final<input type="date" id="fFim"></label><label>Policial<select id="fPol"><option value="">Todos</option></select></label><label>Equipe<select id="fEquipe"><option value="">Todas</option></select></label><label>Tipo de policiamento<select id="fTipo"><option value="">Todos</option></select></label><button id="btnFiltrar">Aplicar filtros</button><button id="btnXls">Exportar Excel filtrado</button><button id="btnCsv">CSV filtrado</button></div>
   <div class="cards" id="relCards"></div>
   <div class="panel"><h3>Comparativo com o mesmo período do ano anterior</h3><table id="relComparativo"></table></div>
   <div class="grid2"><div class="panel"><h3>Resumo por policial</h3><table id="resumoPolicial"></table></div><div class="panel"><h3>Resumo por tipo de policiamento</h3><table id="resumoTipo"></table></div></div>
@@ -49,12 +49,12 @@
 <section id="admin" class="page">
   <div class="topbar"><div><h2>Administração do Efetivo</h2><p>Cadastre, altere, transfira ou inative policiais sem apagar histórico.</p></div></div>
   <form id="formPM" class="formline"><input id="pmGrad" placeholder="Graduação"><input id="pmRE" placeholder="RE"><input id="pmQRA" placeholder="QRA"><input id="pmEquipe" placeholder="Equipe"><select id="pmStatus"><option>ATIVO</option><option>TRANSFERIDO</option><option>INATIVO</option><option>AFASTADO</option></select><button id="salvarPM">Salvar policial</button></form>
-  <div class="panel"><h3>Efetivo cadastrado</h3><div class="tablewrap"><table id="tEfetivo"></table></div></div>
+  <div class="panel"><h3>Conferência automática</h3><p>Use esta lista para corrigir policiais que ainda aparecem sem graduação ou com cadastro incompleto. A correção não apaga histórico.</p><div class="tablewrap"><table id="conferenciaEfetivo"></table></div></div><div class="panel"><h3>Efetivo cadastrado</h3><div class="tablewrap"><table id="tEfetivo"></table></div></div>
 </section>
 <section id="dados" class="page">
   <div class="topbar"><div><h2>Backup e Segurança</h2><p>Sistema local. O banco fica salvo no navegador do PC. Faça backup regularmente antes de atualizar arquivos.</p></div></div>
-  <div class="panel actions"><button id="exportarJson">Exportar backup JSON</button><label class="filebtn">Importar backup JSON<input type="file" id="importJson" accept=".json"></label><button id="exportarTudoCsv">Exportar lançamentos CSV</button><button class="danger" id="resetar">Restaurar base do Excel</button></div>
-  <div class="panel"><h3>Como usar no GitHub</h3><p>Baixe o ZIP, extraia, depois no GitHub clique em <b>Add file</b> → <b>Upload files</b> e envie todos os arquivos desta pasta.</p></div>
+  <div class="panel actions"><button id="exportarJson">Exportar backup JSON</button><label class="filebtn">Importar backup JSON<input type="file" id="importJson" accept=".json"></label><button id="exportarTudoXls">Exportar Excel completo</button><button id="exportarTudoCsv">Exportar CSV completo</button><button class="danger" id="resetar">Restaurar base do Excel</button></div>
+  <div class="panel"><h3>Como não perder dados</h3><p>Os lançamentos ficam salvos no navegador deste computador. Antes de trocar arquivos no GitHub ou testar nova versão, clique em <b>Exportar backup JSON</b>. Se precisar restaurar, use <b>Importar backup JSON</b>.</p></div><div class="panel"><h3>Como usar no GitHub</h3><p>Baixe o ZIP, extraia, depois no GitHub clique em <b>Add file</b> → <b>Upload files</b> e envie todos os arquivos desta pasta.</p></div>
 </section>
 </main>
 <script src="seed-data.js"></script>

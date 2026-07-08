@@ -1,18 +1,24 @@
-# SIGPROD-PMESP - V3
+# SIGPROD-PMESP - V4
 
 Sistema local para gestão da produtividade operacional da 2ª Companhia PM do 24º BPM/I.
 
-## Atualização sem perder dados
+## Melhorias da V4
 
-1. Antes de substituir arquivos, abra o sistema antigo e clique em **Backup > Exportar backup JSON**.
-2. Substitua os arquivos no GitHub ou na pasta local.
-3. Abra o sistema novo. Ele mantém o mesmo banco local do navegador.
-4. Se algo não aparecer, vá em **Backup > Importar backup JSON** e selecione o arquivo salvo.
+- Mantém o mesmo banco local do navegador, sem apagar lançamentos já feitos.
+- Corrige melhor os policiais sem graduação, usando RE e nome/QRA como referência.
+- Exibe Graduação + Nome + RE em lançamentos, consultas e rankings.
+- Inclui conferência automática de efetivo incompleto.
+- Exporta relatório filtrado em Excel (.xls), evitando problemas de data ##### e acentuação.
+- Mantém CSV para backup operacional.
+- Mantém comparativo com o mesmo período do ano anterior.
+- Atualiza cache do PWA para forçar o navegador a carregar a versão nova.
 
-## Correções da V3
+## Regra de segurança
 
-- Graduação + Nome + RE no lançamento, ranking e relatórios.
-- Migração automática do cadastro antigo com RE/graduação trocados.
-- Comparativo com o mesmo período do ano anterior preservado.
-- Correção de grafia de RP + SUPERVISÃO.
-- Botão de instalação do PWA quando publicado via GitHub Pages.
+Antes de atualizar arquivos, abra o sistema antigo e clique em:
+
+Backup → Exportar backup JSON
+
+Depois de atualizar, se algo não aparecer, use:
+
+Backup → Importar backup JSON
