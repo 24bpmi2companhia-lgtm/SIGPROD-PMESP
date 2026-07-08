@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SIGPROD-PMESP</title>
+<link rel="stylesheet" href="styles.css" />
+<link rel="manifest" href="manifest.json" />
+</head>
+<body>
+<aside class="sidebar">
+  <div class="brand"><div class="brasao">PM</div><div><h1>SIGPROD</h1><p>Produtividade Operacional</p></div></div>
+  <button class="nav active" data-page="dashboard">📊 Painel do Comandante</button>
+  <button class="nav" data-page="lancar">➕ Lançar Produtividade</button>
+  <button class="nav" data-page="consultas">🔎 Consultas e Relatórios</button>
+  <button class="nav" data-page="rankings">🏆 Rankings</button>
+  <button class="nav" data-page="admin">👮 Efetivo</button>
+  <button class="nav" data-page="dados">💾 Backup</button>
+</aside>
+<main>
+<section id="dashboard" class="page active">
+  <div class="topbar"><div><h2>Painel do Comandante</h2><p>Indicadores consolidados da produtividade individual.</p></div><button onclick="window.print()">Imprimir / PDF</button></div>
+  <div class="filters compact"><label>Início<input type="date" id="dashIni"></label><label>Fim<input type="date" id="dashFim"></label><label>Tipo<select id="dashTipo"><option value="">Todos</option></select></label><button id="dashAtualizar">Atualizar</button></div>
+  <div class="cards" id="dashCards"></div>
+  <div class="grid2"><div class="panel"><h3>Ranking: pessoas abordadas</h3><table id="dashRankPessoas"></table></div><div class="panel"><h3>Ranking: quem mais aparece</h3><table id="dashRankAparece"></table></div></div>
+  <div class="grid2"><div class="panel"><h3>Produtividade por tipo de policiamento</h3><div id="chartTipo" class="bars"></div></div><div class="panel"><h3>Evolução por mês</h3><div id="chartMes" class="bars"></div></div></div>
+</section>
+<section id="lancar" class="page">
+  <div class="topbar"><div><h2>Lançamento pela Administração</h2><p>O policial da ADM lança os dados do relatório de serviço.</p></div></div>
+  <form id="formLanc" class="formgrid"></form>
+  <div class="actions"><button id="salvarLanc">Salvar lançamento</button><button id="novoLanc" type="button">Novo / limpar</button></div>
+  <div class="panel"><h3>Últimos lançamentos</h3><div class="tablewrap"><table id="ultimos"></table></div></div>
+</section>
+<section id="consultas" class="page">
+  <div class="topbar"><div><h2>Consultas e Relatórios</h2><p>Consulta por período, policial, equipe e modalidade de policiamento.</p></div><button onclick="window.print()">Gerar PDF</button></div>
+  <div class="filters"><label>Data inicial<input type="date" id="fIni"></label><label>Data final<input type="date" id="fFim"></label><label>Policial<select id="fPol"><option value="">Todos</option></select></label><label>Equipe<select id="fEquipe"><option value="">Todas</option></select></label><label>Tipo de policiamento<select id="fTipo"><option value="">Todos</option></select></label><button id="btnFiltrar">Aplicar filtros</button><button id="btnCsv">Exportar CSV filtrado</button></div>
+  <div class="cards" id="relCards"></div>
+  <div class="grid2"><div class="panel"><h3>Resumo por policial</h3><table id="resumoPolicial"></table></div><div class="panel"><h3>Resumo por tipo de policiamento</h3><table id="resumoTipo"></table></div></div>
+  <div class="panel"><h3>Registros filtrados</h3><div class="tablewrap"><table id="registros"></table></div></div>
+</section>
+<section id="rankings" class="page">
+  <div class="topbar"><div><h2>Rankings</h2><p>Sem pontuação: apenas totais reais lançados.</p></div></div>
+  <div class="filters compact"><label>Início<input type="date" id="rIni"></label><label>Fim<input type="date" id="rFim"></label><label>Tipo<select id="rTipo"><option value="">Todos</option></select></label><button id="rAtualizar">Atualizar</button></div>
+  <div id="rankingGrid" class="grid3"></div>
+</section>
+<section id="admin" class="page">
+  <div class="topbar"><div><h2>Administração do Efetivo</h2><p>Cadastre, altere, transfira ou inative policiais sem apagar histórico.</p></div></div>
+  <form id="formPM" class="formline"><input id="pmGrad" placeholder="Graduação"><input id="pmRE" placeholder="RE"><input id="pmQRA" placeholder="QRA"><input id="pmEquipe" placeholder="Equipe"><select id="pmStatus"><option>ATIVO</option><option>TRANSFERIDO</option><option>INATIVO</option><option>AFASTADO</option></select><button id="salvarPM">Salvar policial</button></form>
+  <div class="panel"><h3>Efetivo cadastrado</h3><div class="tablewrap"><table id="tEfetivo"></table></div></div>
+</section>
+<section id="dados" class="page">
+  <div class="topbar"><div><h2>Backup e Segurança</h2><p>Sistema local. O banco fica salvo no navegador do PC. Faça backup regularmente.</p></div></div>
+  <div class="panel actions"><button id="exportarJson">Exportar backup JSON</button><label class="filebtn">Importar backup JSON<input type="file" id="importJson" accept=".json"></label><button id="exportarTudoCsv">Exportar lançamentos CSV</button><button class="danger" id="resetar">Restaurar base do Excel</button></div>
+  <div class="panel"><h3>Como usar no GitHub</h3><p>Baixe o ZIP, extraia, depois no GitHub clique em <b>Add file</b> → <b>Upload files</b> e envie todos os arquivos desta pasta.</p></div>
+</section>
+</main>
+<script src="seed-data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
